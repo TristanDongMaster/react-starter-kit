@@ -16,6 +16,10 @@ class Contact extends React.Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
   };
+  handleClick(event) {
+    event.preventDefault();
+    // history.push(this.props.to);
+  }
 
   render() {
     return (
@@ -24,6 +28,9 @@ class Contact extends React.Component {
           <h1>
             {this.props.title}
           </h1>
+          <a href="/about" onClick={this.handleClick}>
+            2344234
+          </a>
           <p>...</p>
         </div>
       </div>
