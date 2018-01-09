@@ -150,6 +150,7 @@
     ]
   },
   "lint-staged": {
+    "*.{jstest,jsxtest}": ["eslint --fix", "git add"],
     "*.{json,graphql}": ["prettier --write", "git add"],
     "*.{css,less,scss,sss}": ["stylelint --fix", "git add"]
   },
