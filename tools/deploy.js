@@ -14,14 +14,21 @@ import { makeDir, moveDir, cleanDir } from './lib/fs';
 import run from './run';
 
 // GitHub Pages
-const remote = {
+var remote = {
   name: 'github',
   url: 'https://github.com/<user>/<repo>.git',
   branch: 'gh-pages',
   website: 'https://<user>.github.io/<repo>/',
   static: true,
 };
-
+remote = {
+  name: 'github',
+  url: 'http://tristan.dong@10.199.133.181:9999/vpal-new/sh_frontend/cashier-h5',
+  branch: 'tristan-test',
+  website: 'http://tristan.dong@10.199.133.181:9999/vpal-new/sh_frontend/cashier-h5',
+  static: true,
+};
+console.log('start')
 // Heroku
 // const remote = {
 //   name: 'heroku',
@@ -48,7 +55,9 @@ const options = {
  */
 async function deploy() {
   // Initialize a new repository
-  await makeDir('build');
+console.log('makeDir(build)')
+
+  //await makeDir('build');
   await spawn('git', ['init', '--quiet'], options);
 
   // Changing a remote's URL
@@ -81,6 +90,7 @@ async function deploy() {
   } catch (error) {
     await spawn('git', ['update-ref', '-d', 'HEAD'], options);
   }
+  console.info('isRefExists')
   if (isRefExists) {
     await spawn('git', ['fetch', remote.name], options);
     await spawn(
@@ -95,13 +105,14 @@ async function deploy() {
   // generates optimized and minimized bundles
   process.argv.push('--release');
   if (remote.static) process.argv.push('--static');
-  await run(require('./build').default); // eslint-disable-line global-require
+  //await run(require('./build').default); // eslint-disable-line global-require
   if (process.argv.includes('--static')) {
     await cleanDir('build/*', {
       nosort: true,
       dot: true,
       ignore: ['build/.git', 'build/public'],
     });
+    console.info('build/public')
     await moveDir('build/public', 'build');
   }
 
